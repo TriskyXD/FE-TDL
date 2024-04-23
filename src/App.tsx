@@ -3,28 +3,15 @@ import './App.css';
 import {Route, Routes} from "react-router-dom";
 import Tasks from "./pages/tasks/Tasks";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Button, Container, Nav, Navbar} from "react-bootstrap";
 import TaskDetail from "./pages/tasks/TaskDetail";
-//TODO udělat nav samostatně
+import NavBar from "./parts/NavBar";
+
 
 function App() {
     return (
         <>
-
-            <Navbar bg="dark" expand="md" variant="dark" className="mb-5">
-                <Container>
-                    <Navbar.Brand href="/">
-                        <img
-                            alt=""
-                            src={process.env.PUBLIC_URL + '/logo.svg'}
-                            width="30"
-                            height="30"
-                            className="d-inline-block align-top"
-                        />{' '}
-                        TO-DO list
-                    </Navbar.Brand>
-                </Container>
-            </Navbar>
+            <NavBar/>
             <Container>
                 <Routes>
                     <Route path="/" element={<Tasks/>}/>

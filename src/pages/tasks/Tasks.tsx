@@ -18,6 +18,7 @@ const Tasks = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [sortOption, setSortOption] = useState<string>("");
 
+
     useEffect(() => {
         ApiClient.getTasks().then(data => setTasks(data));
     }, []);
@@ -48,34 +49,34 @@ const Tasks = () => {
     };
 
     const createTask = () : void=>{
-    setNameClass("");
-    setDescriptionClass("");
-    setUserIdClass("");
+        setNameClass("");
+        setDescriptionClass("");
+        setUserIdClass("");
 
-    if(newTask.description && newTask.name && newTask.user_id && newTask.name.trim().length > 0){
-    ApiClient.createTask(newTask).then(task => {
-        const tasksCopy = tasks.slice();
-        tasksCopy.push(task);
-        setTasks(tasksCopy);
-        setNewTask(new NewTaskModel("", "", 0));
-        closeModal();
-        window.location.reload();
+        if(newTask.description && newTask.name && newTask.user_id && newTask.name.trim().length > 0){
+            ApiClient.createTask(newTask).then(task => {
+                const tasksCopy = tasks.slice();
+                tasksCopy.push(task);
+                setTasks(tasksCopy);
+                setNewTask(new NewTaskModel("", "", 0));
+                closeModal();
+                window.location.reload();
 
-    });
-    }else {
-        if (!newTask.name || newTask.name.trim().length === 0){
-            setNameClass("border border-danger");
+            });
+        }else {
+            if (!newTask.name || newTask.name.trim().length === 0){
+                setNameClass("border border-danger");
+            }
+            if (!newTask.description || newTask.description.trim().length === 0){
+                setDescriptionClass("border border-danger");
+            }
+            if (isNaN(newTask.user_id) || newTask.user_id <= 0) {
+                setUserIdClass("border border-danger");
+                return;
+            }
+
+
         }
-        if (!newTask.description || newTask.description.trim().length === 0){
-            setDescriptionClass("border border-danger");
-        }
-        if (isNaN(newTask.user_id) || newTask.user_id <= 0) {
-            setUserIdClass("border border-danger");
-            return;
-        }
-
-
-    }
 
     };
 
@@ -135,12 +136,12 @@ const Tasks = () => {
 
     return (
         <>
-           {/*JSON.stringify(tasks)*/}
+            {/*JSON.stringify(tasks)*/}
             <Stack className="mb-3 mt-3" direction="horizontal" gap={1}>
-            <h1>Seznam úkolů</h1>
-            <Button variant="success" size="lg" className="ms-auto mb-2" onClick={openModal}>
-                +
-            </Button>
+                <h1>Seznam úkolů</h1>
+                <Button variant="success" size="lg" className="ms-auto mb-2" onClick={openModal}>
+                    +
+                </Button>
             </Stack>
             <Stack direction="horizontal" gap={1}>
 
@@ -172,23 +173,23 @@ const Tasks = () => {
                 </Dropdown>
 
 
-                    <div className="ms-auto mb-2">
-                        <Form.Control
-                            type="text"
-                            placeholder="Vyhledat..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+                <div className="ms-auto mb-2">
+                    <Form.Control
+                        type="text"
+                        placeholder="Vyhledat..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
 
 
 
 
 
             </Stack>
-                {tasks.filter(filterTasks).map((task) => (
-                    <TaskRow task={task} key={task.id} delete={deleteTask} />
-                ))}
+            {tasks.filter(filterTasks).map((task) => (
+                <TaskRow task={task} key={task.id} delete={deleteTask} />
+            ))}
 
 
             <Modal show={showModal} onHide={closeModal}>
@@ -208,7 +209,7 @@ const Tasks = () => {
                         <Form.Group>
                             <Form.Label><b>Autorovo ID</b></Form.Label>
                             <Form.Control className={userIdClass} type="number" onChange={userIdChanged} />
-                            
+
                         </Form.Group>
                     </Form>
                 </Modal.Body>
