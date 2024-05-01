@@ -4,6 +4,7 @@ import {TaskModel} from "../../model/TaskModel";
 import {Button, Dropdown, Form, FormControl, Modal, Stack, Table} from "react-bootstrap";
 import TaskRow from "./TaskRow";
 import {NewTaskModel} from "../../model/NewTaskModel";
+
 import TaskDetail from "./TaskDetail";
 import taskDetail from "./TaskDetail";
 import {useNavigate} from "react-router-dom";
@@ -94,44 +95,14 @@ const Tasks = () => {
         );
     };
 
-    //TODO předělat řazení na backend
-    const sortTasksByName = (asc: boolean): void => {
-        const collator = new Intl.Collator("cs", { sensitivity: "base" });
-        const sortedTasks = [...tasks].sort((a, b) => {
-            return asc ? collator.compare(a.name, b.name) : collator.compare(b.name, a.name);
-        });
-        setTasks(sortedTasks);
-        setSortOption(asc ? "nameAsc" : "nameDesc");
-    };
-
-    const sortTasksByDescription = (asc: boolean): void => {
-        const collator = new Intl.Collator("cs", { sensitivity: "base" });
-        const sortedTasks = [...tasks].sort((a, b) => {
-            return asc ? collator.compare(a.description, b.description) : collator.compare(b.description, a.description);
-        });
-        setTasks(sortedTasks);
-        setSortOption(asc ? "descriptionAsc" : "descriptionDesc");
-    };
-
     const handleSortOptionChange = (option: string): void => {
         setSortOption(option);
-        switch (option) {
-            case "nameAsc":
-                sortTasksByName(true);
-                break;
-            case "nameDesc":
-                sortTasksByName(false);
-                break;
-            case "descriptionAsc":
-                sortTasksByDescription(true);
-                break;
-            case "descriptionDesc":
-                sortTasksByDescription(false);
-                break;
-            default:
-                break;
-        }
+        ApiClient.getSortedTasks(option).then(sortedTasks => {
+            setTasks(sortedTasks);
+        }).catch(err => alert(err));
     };
+
+
 
 
     return (
@@ -151,26 +122,27 @@ const Tasks = () => {
                         {sortOption.includes("Asc") ? " (A-Z)" : " (Z-A)"}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item active={sortOption === "nameAsc"} onClick={() => handleSortOptionChange("nameAsc")}>
+                        <Dropdown.Item active={sortOption === "TASK_NAME_ASC"} onClick={() => handleSortOptionChange("TASK_NAME_ASC")}>
                             Název A-Z
                         </Dropdown.Item>
-                        <Dropdown.Item active={sortOption === "nameDesc"} onClick={() => handleSortOptionChange("nameDesc")}>
+                        <Dropdown.Item active={sortOption === "TASK_NAME_DESC"} onClick={() => handleSortOptionChange("TASK_NAME_DESC")}>
                             Název Z-A
                         </Dropdown.Item>
                         <Dropdown.Item
-                            active={sortOption === "descriptionAsc"}
-                            onClick={() => handleSortOptionChange("descriptionAsc")}
+                            active={sortOption === "DESCRIPTION_ASC"}
+                            onClick={() => handleSortOptionChange("DESCRIPTION_ASC")}
                         >
                             Popisek A-Z
                         </Dropdown.Item>
                         <Dropdown.Item
-                            active={sortOption === "descriptionDesc"}
-                            onClick={() => handleSortOptionChange("descriptionDesc")}
+                            active={sortOption === "DESCRIPTION_DESC"}
+                            onClick={() => handleSortOptionChange("DESCRIPTION_DESC")}
                         >
                             Popisek Z-A
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+
 
 
                 <div className="ms-auto mb-2">

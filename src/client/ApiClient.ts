@@ -73,6 +73,14 @@ export class ApiClient{
     }
 
 
+    public static async getSortedTasks(sortOption: string): Promise<TaskModel[]> {
+        const response = await fetch(`http://localhost:8080/tasks/sorted?sort=${sortOption}`);
+        if(response.ok){
+            return await response.json();
+        }
+        throw new Error(await response.json());
+    }
+
 
 }
 
