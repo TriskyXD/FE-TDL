@@ -22,7 +22,7 @@ const TaskRow = (params: { task: TaskModel, delete: (id: number) => void }) => {
                         <b>{params.task.name}</b><br/>
                             {params.task.description}<br/>
                             {params.task.complete ? <span style={{color: 'green'}}>SPLNĚNO</span> :
-                            <span style={{color: 'red'}}>NESPLNĚNO</span>}<br/>
+                                <span style={{color: 'red'}}>NESPLNĚNO</span>}<br/>
                             {params.task.userName}<br/>
                         </span>
                     </Stack>

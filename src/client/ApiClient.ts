@@ -1,7 +1,5 @@
 import {TaskModel} from "../model/TaskModel";
 import {NewTaskModel} from "../model/NewTaskModel";
-import {UserModel} from "../model/UserModel";
-import Tasks from "../pages/tasks/Tasks";
 
 export class ApiClient{
     public static async getTasks():Promise<TaskModel[]>{

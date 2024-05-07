@@ -3,18 +3,17 @@ import React, {useEffect, useState} from "react";
 import {TaskModel} from "../../model/TaskModel";
 import {ApiClient} from "../../client/ApiClient";
 import {Button, Form, Row} from "react-bootstrap";
-import {UserModel} from "../../model/UserModel";
 
-const TaskDetail = () =>{
-    const{id} = useParams();
+const TaskDetail = () => {
+    const {id} = useParams();
     const navigate = useNavigate();
     const [task, setTask] = useState<TaskModel>();
     const [changed, setChanged] = useState<boolean>(false);
     useEffect(() => {
         const numberId = Number(id);
-        if (!isNaN(numberId)){
+        if (!isNaN(numberId)) {
             ApiClient.getTask(numberId).then(task => setTask(task)).catch(err => navigate("/nonono"));
-        }else{
+        } else {
             navigate("/notfound")
         }
     }, [id, navigate]);
@@ -51,7 +50,7 @@ const TaskDetail = () =>{
         }
     };
 
-    return(
+    return (
         <>
             <h2 className="ms-auto me-auto col-lg-6 col-md-12 ">Detail úkolu</h2>
             <Row>
@@ -59,7 +58,7 @@ const TaskDetail = () =>{
 
 
                     <Form.Group>
-                        <Form.Label ><b>Název</b></Form.Label>
+                        <Form.Label><b>Název</b></Form.Label>
                         <Form.Control onChange={nameChanged} value={task?.name}/>
                     </Form.Group>
                     <Form.Group>
@@ -68,16 +67,18 @@ const TaskDetail = () =>{
                     </Form.Group>
                     <Form.Group>
                         <div className="d-grid gap-2">
-                        <Button className="mt-2 " variant={task?.complete ? "danger" : "success"} size="sm"  onClick={changeStatus}>Označit jako {task?.complete ? "nesplněno" : "splněno"}</Button>
+                            <Button className="mt-2 " variant={task?.complete ? "danger" : "success"} size="sm"
+                                    onClick={changeStatus}>Označit
+                                jako {task?.complete ? "nesplněno" : "splněno"}</Button>
                         </div>
-                        </Form.Group>
+                    </Form.Group>
 
 
-            <Form.Group className="mt-2">
-                <div className="d-grid gap-2">
-                <Button variant="outline-success" size="lg" onClick={saveChanges}>Uložit změny</Button>
-                </div>
-            </Form.Group>
+                    <Form.Group className="mt-2">
+                        <div className="d-grid gap-2">
+                            <Button variant="outline-success" size="lg" onClick={saveChanges}>Uložit změny</Button>
+                        </div>
+                    </Form.Group>
                 </div>
             </Row>
         </>

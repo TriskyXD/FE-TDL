@@ -3,7 +3,7 @@ import './App.css';
 import {Route, Routes} from "react-router-dom";
 import Tasks from "./pages/tasks/Tasks";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Container, Nav, Navbar} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import TaskDetail from "./pages/tasks/TaskDetail";
 import NavBar from "./parts/NavBar";
 
